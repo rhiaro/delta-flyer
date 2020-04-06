@@ -13,7 +13,8 @@ docker run --rm --interactive --tty \
 
 ## Todo
 
-* [ ] Replace to and from text inputs with maps
+* [x] Replace to and from text inputs with maps
 * [ ] Get current location to populate from
 * [ ] Autofill summary
 * [ ] Get a dropdown for from and to from existing places in backend
+* [ ] Make tags URI base configurable

@@ -2,16 +2,17 @@
           <label for="summary">Summary</label>
           <input type="text" name="summary" id="summary" />
         </p>
+        <div id="locationsinput">
+          <p>
+            <label for="from">From</label>
+            <input type="text" name="from" id="from" />
+          </p>
 
-        <p>
-          <label for="from">From</label>
-          <input type="text" name="from" id="from" />
-        </p>
-
-        <p>
-          <label for="to">To</label>
-          <input type="text" name="to" id="to" />
-        </p>
+          <p>
+            <label for="to">To</label>
+            <input type="text" name="to" id="to" />
+          </p>
+        </div>
 
         <p>
           <label>Start</label> 
@@ -40,6 +41,8 @@
             <option value="2020" selected>2020</option>
             <option value="2019">2019</option>
             <option value="2018">2018</option>
+            <option value="2017">2017</option>
+            <option value="2016">2016</option>
           </select>
           <select name="endmonth" id="endmonth">
             <?for($i=1;$i<=12;$i++):?>
@@ -68,7 +71,7 @@
         <p>
           <label></label>
           <span>
-            <input type="checkbox" value="https://rhiaro.co.uk/tags/travel" name="tags[]" id="travel" /><label for="travel">travel</label>
+            <input type="checkbox" value="https://rhiaro.co.uk/tags/travel" name="tags[]" id="travel" checked /><label for="travel">travel</label>
             <input type="checkbox" value="https://rhiaro.co.uk/tags/transit" name="tags[]" id="transit" /><label for="transit">transit</label>
             <input type="checkbox" value="https://rhiaro.co.uk/tags/bus" name="tags[]" id="bus" /><label for="bus">bus</label>
             <input type="checkbox" value="https://rhiaro.co.uk/tags/train" name="tags[]" id="train" /><label for="train">train</label>

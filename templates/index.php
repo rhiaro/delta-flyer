@@ -5,6 +5,9 @@
     <link rel="stylesheet" type="text/css" href="../../views/normalize.min.css" />
     <link rel="stylesheet" type="text/css" href="../../views/core.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
     <style type="text/css">
       main {
         width: 50%; margin-left: auto; margin-right: auto;
@@ -65,6 +68,9 @@
       }
       #reload:hover {
         cursor: pointer;
+      }
+      #startMap, #endMap {
+        height: 300px; width: 100%;
       }
     </style>
   </head>
@@ -140,51 +146,12 @@
       <?endif?>
       </p>
     </footer>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <script src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js"></script>
     <script>
-
-      var reloadBtn = document.getElementById('reload');
-      reloadBtn.addEventListener('click', function(e){
-        var now = new Date();
-        var year = now.getFullYear().toString();
-        var month = now.getMonth()+1;
-        month = month.toString().padStart(2, '0');
-        var day = now.getDate();
-        day = day.toString().padStart(2, '0');
-        var time = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') + ':' + now.getSeconds().toString().padStart(2, '0');
-        var zoneDiff = now.getTimezoneOffset() / 60;
-        if(zoneDiff <= 0){
-          var sign = '+';
-        }else{
-          var sign = '-';
-        }
-        var zone = sign + Math.abs(zoneDiff).toString().padStart(2, '0') + ':00';
-
-        var yearEles = document.getElementById('year').getElementsByTagName('option');
-        var monthEles = document.getElementById('month').getElementsByTagName('option');
-        var dayEles = document.getElementById('day').getElementsByTagName('option');
-
-        for(var i = 0; i < yearEles.length; i=i+1){
-          if(yearEles[i].value == year){
-            yearEles[i].selected = 'true';
-          }
-        }
-        for(var i = 0; i < monthEles.length; i=i+1){
-          if(monthEles[i].value == month){
-            monthEles[i].selected = 'true';
-          }
-        }
-        for(var i = 0; i < dayEles.length; i=i+1){
-          if(dayEles[i].value == day){
-            dayEles[i].selected = 'true';
-          }
-        }
-
-        document.getElementById('time').value = time;
-        document.getElementById('zone').value = zone;
-
-      });
-
-      
+      var coordsform = `<? include("form_coords.php")?>`;
     </script>
+    <script src="js/delta-flyer.js"></script>
+    <script src="js/reload-button.js"></script>
   </body>
 </html>
