@@ -55,6 +55,7 @@ function make_location_from_coords($lat, $lng, $name){
     $location_graph->addLiteral($location_node, "as:name", $name);
     $location_graph->addLiteral($location_node, "as:latitude", number_format((float) $lat, 4));
     $location_graph->addLiteral($location_node, "as:longitude", number_format((float) $lng, 4));
+
     return $location_graph;
 }
 
@@ -65,8 +66,8 @@ function validate_input($form_request){
     if(isset($form_request["endlat"]) && isset($form_request["endlng"])){
         $endcoords = $form_request["endlat"].",".$form_request["endlng"];
     }
-    
-    if((!isset($form_request["from"]) || strlen(trim($form_request["from"])) < 1) 
+
+    if((!isset($form_request["from"]) || strlen(trim($form_request["from"])) < 1)
         && (!isset($startcoords) && strlen(trim($startcoords)) < 1)){
         return false;
     }
@@ -132,31 +133,29 @@ function make_payload($form_request){
 
     $endpoint = $form_request["endpoint_uri"];
     $key = $form_request["endpoint_key"];
-    
+
     $dates = process_dates($form_request);
 
     if(isset($form_request["from"]) && strlen($form_request["from"]) > 0){
-        $from_location = make_location_from_string($form_request["from"]);
+        $start_location_uri = make_location_from_string($form_request["from"]);
     }
     if(isset($form_request["to"]) && strlen($form_request["to"]) > 0){
-        $to_location = make_location_from_string($form_request["to"]);
+        $end_location_uri = make_location_from_string($form_request["to"]);
     }
 
     if(isset($form_request["startlat"]) && isset($form_request["startlng"])){
         $start_location = make_location_from_coords($form_request["startlat"], $form_request["startlng"], $form_request["startname"]);
-        // echo $start_location->dump();
-        // HERENOW post start_location to endpoint and get URL back
-        
-        $startjsonld = $start_location->serialise("jsonld");
-        $start_comp = JsonLD::compact($jsonld, $context, $options);
-        $start_payload = JsonLD::toString($start_comp, true);
-        // $from_url = post_to_endpoint($endpoint, $key, $start_payload);
+        $start_loc_compacted = JsonLD::compact($start_location->serialise("jsonld"), $context, $options);
+        $start_payload = JsonLD::toString($start_loc_compacted, true);
+        // $start_location_response = post_to_endpoint($endpoint, $key, $start_payload);
+        // var_dump($start_location_response);
+
     }
     if(isset($form_request["endlat"]) && isset($form_request["endlng"])){
         $end_location = make_location_from_coords($form_request["endlat"], $form_request["endlng"], $form_request["endname"]);
-        // echo $end_location->dump();
+
     }
-    
+
     $tags = make_tags($form_request["tags"]);
     $summary = trim($form_request["summary"]);
     $content = trim($form_request["content"]);
@@ -168,11 +167,11 @@ function make_payload($form_request){
         $g->addLiteral($node, "as:published", $dates["published"]);
         $g->addLiteral($node, "as:startTime", $dates["start"]);
         $g->addLiteral($node, "as:endTime", $dates["end"]);
-        if(isset($from_location)){
-            $g->addResource($node, "as:origin", $from_location);
+        if(isset($start_location_uri)){
+            $g->addResource($node, "as:origin", $start_location_uri);
         }
-        if(isset($to_location)){
-            $g->addResource($node, "as:target", $to_location);
+        if(isset($end_location_uri)){
+            $g->addResource($node, "as:target", $end_location_uri);
         }
         foreach($tags as $tag){
             $g->addResource($node, "as:tag", $tag);
@@ -199,15 +198,15 @@ function form_to_endpoint($form_request){
     $endpoint = $form_request["endpoint_uri"];
     $key = $form_request["endpoint_key"];
     $payload = make_payload($form_request);
-    $response = post_to_endpoint($endpoint, $key, $payload);
+    // $response = post_to_endpoint($endpoint, $key, $payload);
     // return $response;
     return $payload;
 }
 
 function post_to_endpoint($endpoint, $key, $payload){
     $headers = array("Content-Type" => "application/ld+json", "Authorization" => $key);
-    // $response = Requests::post($endpoint, $headers, $payload);
-    // return $response;
+    $response = Requests::post($endpoint, $headers, $payload);
+    return $response;
 }
 
 ?>
