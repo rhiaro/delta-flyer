@@ -1,88 +1,100 @@
         <p>
           <label for="summary">Summary</label>
-          <input type="text" name="summary" id="summary" />
+          <input type="text" name="summary" id="summary"<?=(isset($_POST['summary'])) ? ' value="'.$_POST['summary'].'"' : ''?> />
         </p>
         <div id="locationsinput">
           <p>
             <label for="from">From</label>
-            <input type="text" name="from" id="from" />
+            <input type="text" name="from" id="from"<?=(isset($_POST['from'])) ? ' value="'.$_POST['from'].'"' : ''?> />
           </p>
 
           <p>
             <label for="to">To</label>
-            <input type="text" name="to" id="to" />
+            <input type="text" name="to" id="to"<?=(isset($_POST['to'])) ? ' value="'.$_POST['to'].'"' : ''?> />
           </p>
         </div>
 
         <p>
-          <label>Start</label> 
+          <label>Start</label>
           <select name="startyear" id="startyear">
-            <option value="2020" selected>2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
+            <?for($i=date("Y");$i>=2015;$i--):?>
+              <option value="<?=$i?>"<?=($i==$_POST['startyear']) ? " selected" : ""?>><?=$i?></option>
+            <?endfor?>
           </select>
           <select name="startmonth" id="startmonth">
             <?for($i=1;$i<=12;$i++):?>
-              <option value="<?=date("m", strtotime("2016-$i-01"))?>"<?=(date("n") == $i) ? " selected" : ""?>><?=date("M", strtotime("2016-$i-01"))?></option>
+              <? $i = date("m", strtotime("2016-$i-01")); ?>
+              <option value="<?=$i?>"
+                <?=(isset($_POST['startmonth']) && $_POST['startmonth'] == $i) ? " selected" : (!isset($_POST['startmonth']) && date("n") == $i) ? " selected" : ""?>>
+                <?=date("M", strtotime("2016-$i-01"))?>
+              </option>
             <?endfor?>
           </select>
           <select name="startday" id="startday">
             <?for($i=1;$i<=31;$i++):?>
-              <option value="<?=date("d", strtotime("2016-01-$i"))?>"<?=(date("j") == $i) ? " selected" : ""?>><?=date("d", strtotime("2016-01-$i"))?></option>
+              <? $i = date("d", strtotime("2016-01-$i")); ?>
+              <option value="<?=$i?>"
+                <?=(isset($_POST['startday']) && $_POST['startday'] == $i) ? " selected" : (!isset($_POST['startday']) && date("j") == $i) ? " selected" : ""?>>
+                <?=$i?>
+              </option>
             <?endfor?>
           </select>
-          <input type="text" name="starttime" id="starttime" value="<?=date("H:i:s")?>" size="8" />
-          <input type="text" name="startzone" id="startzone" value="<?=date("P")?>" size="5" />
+          <input type="text" name="starttime" id="starttime" value="<?=(isset($_POST['starttime'])) ? $_POST['starttime'] : date("H:i:s")?>" size="8" />
+          <input type="text" name="startzone" id="startzone" value="<?=(isset($_POST['startzone'])) ? $_POST['startzone'] : date("P")?>" size="5" />
           <span id="reload"></span>
         </p>
         <p>
-          <label>End</label> 
+          <label>End</label>
           <select name="endyear" id="endyear">
-            <option value="2020" selected>2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-            <option value="2017">2017</option>
-            <option value="2016">2016</option>
+            <?for($i=date("Y");$i>=2015;$i--):?>
+              <option value="<?=$i?>"<?=($i==$_POST['endyear']) ? " selected" : ""?>><?=$i?></option>
+            <?endfor?>
           </select>
           <select name="endmonth" id="endmonth">
             <?for($i=1;$i<=12;$i++):?>
-              <option value="<?=date("m", strtotime("2016-$i-01"))?>"<?=(date("n") == $i) ? " selected" : ""?>><?=date("M", strtotime("2016-$i-01"))?></option>
+              <? $i = date("m", strtotime("2016-$i-01")); ?>
+              <option value="<?=$i?>"
+                <?=(isset($_POST['endmonth']) && $_POST['endmonth'] == $i) ? " selected" : (!isset($_POST['endmonth']) && date("n") == $i) ? " selected" : ""?>>
+                <?=date("M", strtotime("2016-$i-01"))?>
+              </option>
             <?endfor?>
           </select>
           <select name="endday" id="endday">
             <?for($i=1;$i<=31;$i++):?>
-              <option value="<?=date("d", strtotime("2016-01-$i"))?>"<?=(date("j") == $i) ? " selected" : ""?>><?=date("d", strtotime("2016-01-$i"))?></option>
+              <? $i = date("d", strtotime("2016-01-$i")); ?>
+              <option value="<?=$i?>"
+                <?=(isset($_POST['endday']) && $_POST['endday'] == $i) ? " selected" : (!isset($_POST['endday']) && date("j") == $i) ? " selected" : ""?>>
+                <?=$i?>
+              </option>
             <?endfor?>
           </select>
-          <input type="text" name="endtime" id="endtime" value="<?=date("H:i:s")?>" size="8" />
-          <input type="text" name="endzone" id="endzone" value="<?=date("P")?>" size="5" />
+          <input type="text" name="endtime" id="endtime" value="<?=(isset($_POST['endtime'])) ? $_POST['endtime'] : date("H:i:s")?>" size="8" />
+          <input type="text" name="endzone" id="endzone" value="<?=(isset($_POST['endzone'])) ? $_POST['endzone'] : date("P")?>" size="5" />
           <span id="reload"></span>
         </p>
 
         <p>
           <label for="content">Description</label>
-          <textarea name="content" id="content"></textarea>
+          <textarea name="content" id="content">
+            <?=(isset($_POST['content'])) ? $_POST['content'] : ''?>
+          </textarea>
         </p>
 
         <p>
           <label for="tags">Tags</label>
-          <input type="text" name="tags[string]" id="tags" />
+          <input type="text" name="tags[string]" id="tags"<?=(isset($_POST['tags']['string'])) ? ' value="'.$_POST['tags']['string'].'"' : ''?> />
         </p>
         <p>
           <label></label>
           <span>
-            <input type="checkbox" value="https://rhiaro.co.uk/tags/travel" name="tags[]" id="travel" checked /><label for="travel">travel</label>
-            <input type="checkbox" value="https://rhiaro.co.uk/tags/transit" name="tags[]" id="transit" /><label for="transit">transit</label>
-            <input type="checkbox" value="https://rhiaro.co.uk/tags/bus" name="tags[]" id="bus" /><label for="bus">bus</label>
-            <input type="checkbox" value="https://rhiaro.co.uk/tags/train" name="tags[]" id="train" /><label for="train">train</label>
-            <input type="checkbox" value="https://rhiaro.co.uk/tags/ferry" name="tags[]" id="ferry" /><label for="ferry">ferry</label>
-            <input type="checkbox" value="https://rhiaro.co.uk/tags/tram" name="tags[]" id="tram" /><label for="tram">tram</label>
-            <input type="checkbox" value="https://rhiaro.co.uk/tags/metro" name="tags[]" id="metro" /><label for="metro">metro</label>
+            <?foreach($tags as $label => $tag):?>
+              <input type="checkbox" value="<?=$tag?>" name="tags[]" id="<?=$label?>"<?=(in_array($tag, $_POST['tags'])) ? " checked" : ""?> /><label for="<?=$label?>"><?=$label?></label>
+            <?endforeach?>
           </span>
         </p>
 
         <p>
-          <label>Published</label> 
+          <label>Published</label>
           <select name="year" id="year">
             <option value="2020" selected>2020</option>
             <option value="2019">2019</option>

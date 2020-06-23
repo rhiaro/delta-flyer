@@ -79,7 +79,7 @@
       <h1>Delta Flyer</h1>
 
       <? include("form_menu.php"); ?>
-      
+
       <?if(isset($errors)):?>
         <div class="fail">
           <?foreach($errors as $key=>$error):?>
@@ -87,7 +87,7 @@
           <?endforeach?>
         </div>
       <?endif?>
-      
+
       <?if(isset($result)):?>
         <div>
           <p>The response from your endpoint:</p>
@@ -102,15 +102,15 @@
           </pre>
         </div>
       <?endif?>
-      
+
       <form method="post" role="form" id="astrogator" class="align-center">
-        
+
         <?if(isset($_GET["mode"]) && $_GET["mode"] == "route"):?>
           <? include("form_route.php"); ?>
         <?else:?>
           <? include("form_checkin.php"); ?>
         <?endif?>
-        
+
         <hr/>
         <!-- temp -->
         <select name="endpoint_uri">
@@ -121,7 +121,7 @@
         <!--/ temp -->
         <hr/>
       </form>
-      
+
       <div class="color3-bg inner">
         <?if(isset($_SESSION['me'])):?>
           <p class="wee">You are logged in as <strong><?=$_SESSION['me']?></strong> <a href="?logout=1">Logout</a></p>
@@ -136,7 +136,7 @@
             <input type="hidden" name="scope" value="post" />
           </form>
         <?endif?>
-        
+
       </div>
     </main>
     <footer class="w1of2 center">
@@ -150,6 +150,10 @@
     <script src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js"></script>
     <script>
       var coordsform = `<? include("form_coords.php")?>`;
+      var startLat = `<?=(isset($_POST['startlat'])) ? $_POST['startlat'] : "45.505" ?>`;
+      var startLng = `<?=(isset($_POST['startlng'])) ? $_POST['startlng'] : "20.14" ?>`;
+      var endLat = `<?=(isset($_POST['endlat'])) ? $_POST['endlat'] : "45.505" ?>`;
+      var endLng = `<?=(isset($_POST['endlng'])) ? $_POST['endlng'] : "20.14" ?>`;
     </script>
     <script src="js/delta-flyer.js"></script>
     <script src="js/reload-button.js"></script>
