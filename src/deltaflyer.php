@@ -199,7 +199,7 @@ function make_payload($form_request){
         $jsonld = $g->serialise("jsonld");
         $compacted = JsonLD::compact($jsonld, $context, $options);
 
-        echo $g->dump();
+        // echo $g->dump();
 
         return JsonLD::toString($compacted, true);
     }else{

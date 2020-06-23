@@ -92,7 +92,7 @@
         <div>
           <p>The response from your endpoint:</p>
           <code><?=$endpoint?></code>
-          <?if(isset($result["errors"])):?>
+          <?if(is_array($result) && isset($result["errors"])):?>
             <p class="fail"><strong>Errors</strong>, somewhere.. <strong><?=$result["errno"]?></strong> of them.</p>
           <?elseif($result->status_code != "201"):?>
             <p class="fail">Nothing created, error code <strong><?=$result->status_code?></strong></p>
@@ -116,10 +116,10 @@
         <hr/>
         <!-- temp -->
         <select name="endpoint_uri">
-          <option value="https://rhiaro.co.uk/outgoing/">rhiaro.co.uk</option>
           <option value="http://localhost/outgoing/">localhost</option>
+          <option value="https://rhiaro.co.uk/outgoing/">rhiaro.co.uk</option>
         </select>
-        <input type="password" name="endpoint_key" />
+        <input type="password" name="endpoint_key"<?isset($_SESSION['key']) ? ' value="'.$_SESSION['key'].'"': ''?> />
         <!--/ temp -->
         <hr/>
       </form>

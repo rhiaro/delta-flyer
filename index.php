@@ -29,6 +29,9 @@ $tags = array(
 );
 
 if(isset($_POST['submit'])){
+    if(isset($_POST['endpoint_key'])){
+        $_SESSION['key'] = $_POST['endpoint_key'];
+    }
     $endpoint = $_POST['endpoint_uri'];
     $result = Rhiaro\form_to_endpoint($_POST);
 }
