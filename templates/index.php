@@ -92,7 +92,9 @@
         <div>
           <p>The response from your endpoint:</p>
           <code><?=$endpoint?></code>
-          <?if($result->status_code != "201"):?>
+          <?if(isset($result["errors"])):?>
+            <p class="fail"><strong>Errors</strong>, somewhere.. <strong><?=$result["errno"]?></strong> of them.</p>
+          <?elseif($result->status_code != "201"):?>
             <p class="fail">Nothing created, error code <strong><?=$result->status_code?></strong></p>
           <?else:?>
             <p class="win">Post created.. <strong><?=$result->headers['location']?></strong></p>

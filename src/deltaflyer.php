@@ -131,6 +131,8 @@ function make_payload($form_request){
     $context = $ns->get("as");
     $options = array("compactArrays" => true);
 
+    $errors = array();
+
     $endpoint = $form_request["endpoint_uri"];
     $key = $form_request["endpoint_key"];
 
@@ -147,20 +149,31 @@ function make_payload($form_request){
         $start_location = make_location_from_coords($form_request["startlat"], $form_request["startlng"], $form_request["startname"]);
         $start_loc_compacted = JsonLD::compact($start_location->serialise("jsonld"), $context, $options);
         $start_payload = JsonLD::toString($start_loc_compacted, true);
-        // $start_location_response = post_to_endpoint($endpoint, $key, $start_payload);
-        // var_dump($start_location_response);
+        $start_location_response = post_to_endpoint($endpoint, $key, $start_payload);
+        if($start_location_response->success){
+            $start_location_uri = $start_location_response->headers['location'];
+        }else{
+            $errors[] = array("start_location" => $start_location_response->body);
+        }
 
     }
     if(isset($form_request["endlat"]) && isset($form_request["endlng"])){
         $end_location = make_location_from_coords($form_request["endlat"], $form_request["endlng"], $form_request["endname"]);
-
+        $end_loc_compacted = JsonLD::compact($end_location->serialise("jsonld"), $context, $options);
+        $end_payload = JsonLD::toString($end_loc_compacted, true);
+        $end_location_response = post_to_endpoint($endpoint, $key, $end_payload);
+        if($end_location_response->success){
+            $end_location_uri = $end_location_response->headers['location'];
+        }else{
+            $errors[] = array("end_location" => $end_location_response->body);
+        }
     }
 
     $tags = make_tags($form_request["tags"]);
     $summary = trim($form_request["summary"]);
     $content = trim($form_request["content"]);
 
-    if(validate_input($form_request)){
+    if(count($errors) < 1 && validate_input($form_request)){
 
         $node = $g->newBNode();
         $g->addType($node, "as:Travel");
@@ -190,7 +203,7 @@ function make_payload($form_request){
 
         return JsonLD::toString($compacted, true);
     }else{
-        return false;
+        return $errors;
     }
 }
 
@@ -198,9 +211,13 @@ function form_to_endpoint($form_request){
     $endpoint = $form_request["endpoint_uri"];
     $key = $form_request["endpoint_key"];
     $payload = make_payload($form_request);
-    // $response = post_to_endpoint($endpoint, $key, $payload);
-    // return $response;
-    return $payload;
+    if(is_array($payload)){
+        // Errors
+        return array("errno" => count($payload), "errors" => $payload);
+    }else{
+        $response = post_to_endpoint($endpoint, $key, $payload);
+        return $response;
+    }
 }
 
 function post_to_endpoint($endpoint, $key, $payload){
