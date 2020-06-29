@@ -72,6 +72,14 @@
       #startMap, #endMap {
         height: 300px; width: 100%;
       }
+      #toggleFromMap, #toggleToMap {
+        cursor: pointer;
+        font-size: 0.8em;
+        font-weight: bold;
+        padding: 0.2em;
+        border: 1px solid silver;
+        float: right;
+      }
     </style>
   </head>
   <body>
@@ -151,11 +159,14 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
     <script src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js"></script>
     <script>
-      var coordsform = `<? include("form_coords.php")?>`;
-      var startLat = `<?=(isset($_POST['startlat'])) ? $_POST['startlat'] : "45.505" ?>`;
-      var startLng = `<?=(isset($_POST['startlng'])) ? $_POST['startlng'] : "20.14" ?>`;
-      var endLat = `<?=(isset($_POST['endlat'])) ? $_POST['endlat'] : "45.505" ?>`;
-      var endLng = `<?=(isset($_POST['endlng'])) ? $_POST['endlng'] : "20.14" ?>`;
+      var fromMap = `<? include("form_map_from.php")?>`;
+      var toMap = `<? include("form_map_to.php")?>`;
+      var fromMapOn = <?=(isset($_POST['startname'])) ? "true" : "false" ?>;
+      var toMapOn = <?=(isset($_POST['endname'])) ? "true" : "false" ?>;
+      var startLat = <?=(isset($_POST['startlat'])) ? $_POST['startlat'] : "45.505" ?>;
+      var startLng = <?=(isset($_POST['startlng'])) ? $_POST['startlng'] : "20.14" ?>;
+      var endLat = <?=(isset($_POST['endlat'])) ? $_POST['endlat'] : "45.505" ?>;
+      var endLng = <?=(isset($_POST['endlng'])) ? $_POST['endlng'] : "20.14" ?>;
     </script>
     <script src="js/delta-flyer.js"></script>
     <script src="js/reload-button.js"></script>
