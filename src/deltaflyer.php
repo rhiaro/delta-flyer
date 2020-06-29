@@ -7,6 +7,26 @@ use EasyRdf_Literal;
 use ML\JsonLD\JsonLD;
 use GeoNames\Client as GeoNamesClient;
 
+function get_locations($url="https://rhiaro.co.uk/places/"){
+    $response = Requests::get($url, array('Accept' => 'application/ld+json'));
+    $g = new EasyRdf_Graph($url);
+    $g->parse($response->body, 'jsonld');
+
+    $locations = array();
+
+    $resources = $g->resources();
+    foreach($resources as $uri => $resource){
+        if($resource->isA('as:Place')){
+            $name = $g->get($uri, 'as:name')->getValue();
+            $sortname = explode(', ', $name);
+            $sortname = array_reverse($sortname);
+            $sortname = implode(', ', $sortname);
+            $locations[] = array("id" => $uri, "name" => $name, "sort" => $sortname);
+        }
+    }
+    return $locations;
+}
+
 // Form input processing
 
 function make_tags($input_array){
@@ -68,11 +88,11 @@ function validate_input($form_request){
     }
 
     if((!isset($form_request["from"]) || strlen(trim($form_request["from"])) < 1)
-        && (!isset($startcoords) && strlen(trim($startcoords)) < 1)){
+        && (!isset($startcoords) || strlen(trim($startcoords)) < 1)){
         return false;
     }
     if((!isset($form_request["to"]) || strlen(trim($form_request["to"])) < 1)
-        && (!isset($endcoords) || strlen(trim($startcoords)) < 1)){
+        && (!isset($endcoords) || strlen(trim($endcoords)) < 1)){
         return false;
     }
     if(isset($form_request["to"]) && isset($form_request["from"]) && $form_request["to"] == $form_request["from"]){

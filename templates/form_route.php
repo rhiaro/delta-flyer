@@ -2,14 +2,29 @@
           <label for="summary">Summary</label>
           <input type="text" name="summary" id="summary"<?=(isset($_POST['summary'])) ? ' value="'.$_POST['summary'].'"' : ''?> />
         </p>
-        <div id="locationsinput">
+        <span id="toggleFromMap">change input</span>
+        <div id="fromInput">
           <p>
             <label for="from">From</label>
+            <select name="from_uri" id="from_uri">
+              <option>--</option>
+              <?foreach($locations as $location):?>
+                <option value="<?=$location['id']?>"><?=$location['name']?></option>
+              <?endforeach?>
+            </select>
             <input type="text" name="from" id="from"<?=(isset($_POST['from'])) ? ' value="'.$_POST['from'].'"' : ''?> />
           </p>
-
+        </div>
+        <span id="toggleToMap">change input</span>
+        <div id="toInput">
           <p>
             <label for="to">To</label>
+            <select name="to_uri" id="to_uri">
+              <option>--</option>
+              <?foreach($locations as $location):?>
+                <option value="<?=$location['id']?>"><?=$location['name']?></option>
+              <?endforeach?>
+            </select>
             <input type="text" name="to" id="to"<?=(isset($_POST['to'])) ? ' value="'.$_POST['to'].'"' : ''?> />
           </p>
         </div>

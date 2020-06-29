@@ -28,6 +28,12 @@ $tags = array(
     "hitchhiking" => "https://rhiaro.co.uk/tags/hitchhiking",
 );
 
+$locations = Rhiaro\get_locations("http://localhost/places/");
+
+usort($locations, function($a, $b) {
+    return $a['sort'] <=> $b['sort'];
+});
+
 if(isset($_POST['submit'])){
     if(isset($_POST['endpoint_key'])){
         $_SESSION['key'] = $_POST['endpoint_key'];
