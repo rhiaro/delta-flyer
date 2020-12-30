@@ -28,7 +28,7 @@ $tags = array(
     "hitchhiking" => "https://rhiaro.co.uk/tags/hitchhiking",
 );
 
-$locations = Rhiaro\get_locations("http://localhost/places/");
+$locations = Rhiaro\get_locations("http://localhost/places/?limit=10000");
 
 usort($locations, function($a, $b) {
     return $a['sort'] <=> $b['sort'];
