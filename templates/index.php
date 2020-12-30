@@ -127,7 +127,7 @@
           <option value="http://localhost/outgoing/">localhost</option>
           <option value="https://rhiaro.co.uk/outgoing/">rhiaro.co.uk</option>
         </select>
-        <input type="password" name="endpoint_key"<?isset($_SESSION['key']) ? ' value="'.$_SESSION['key'].'"': ''?> />
+        <input type="password" name="endpoint_key"<?=isset($_SESSION['key']) ? ' value="'.$_SESSION['key'].'"': ''?> />
         <!--/ temp -->
         <hr/>
       </form>
