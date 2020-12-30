@@ -7,7 +7,7 @@ use EasyRdf_Literal;
 use ML\JsonLD\JsonLD;
 use GeoNames\Client as GeoNamesClient;
 
-function get_locations($url="https://rhiaro.co.uk/places/"){
+function get_locations($url="https://rhiaro.co.uk/places/?limit=10000"){
     $response = Requests::get($url, array('Accept' => 'application/ld+json'));
     $g = new EasyRdf_Graph($url);
     $g->parse($response->body, 'jsonld');
@@ -87,15 +87,18 @@ function validate_input($form_request){
         $endcoords = $form_request["endlat"].",".$form_request["endlng"];
     }
 
-    if((!isset($form_request["from"]) || strlen(trim($form_request["from"])) < 1)
+    if(!isset($form_request["from_uri"]) && (!isset($form_request["from"]) || strlen(trim($form_request["from"])) < 1)
         && (!isset($startcoords) || strlen(trim($startcoords)) < 1)){
         return false;
     }
-    if((!isset($form_request["to"]) || strlen(trim($form_request["to"])) < 1)
+    if(!isset($form_request["to_uri"]) && (!isset($form_request["to"]) || strlen(trim($form_request["to"])) < 1)
         && (!isset($endcoords) || strlen(trim($endcoords)) < 1)){
         return false;
     }
     if(isset($form_request["to"]) && isset($form_request["from"]) && $form_request["to"] == $form_request["from"]){
+        return false;
+    }
+    if(isset($form_request["to_uri"]) && isset($form_request["from_uri"]) && $form_request["to_uri"] == $form_request["from_uri"]){
         return false;
     }
     if(isset($startcoords) && isset($endcoords) && $startcoords == $endcoords){
@@ -165,6 +168,9 @@ function make_payload($form_request){
         $end_location_uri = make_location_from_string($form_request["to"]);
     }
 
+    if(isset($form_request["from_uri"]) && strlen($form_request["from_uri"]) > 0){
+        $start_location_uri = $form_request["from_uri"];
+    }else
     if(isset($form_request["startlat"]) && isset($form_request["startlng"])){
         $start_location = make_location_from_coords($form_request["startlat"], $form_request["startlng"], $form_request["startname"]);
         $start_loc_compacted = JsonLD::compact($start_location->serialise("jsonld"), $context, $options);
@@ -177,6 +183,9 @@ function make_payload($form_request){
         }
 
     }
+    if(isset($form_request["to_uri"]) && strlen($form_request["to_uri"]) > 0){
+        $end_location_uri = $form_request["to_uri"];
+    }else
     if(isset($form_request["endlat"]) && isset($form_request["endlng"])){
         $end_location = make_location_from_coords($form_request["endlat"], $form_request["endlng"], $form_request["endname"]);
         $end_loc_compacted = JsonLD::compact($end_location->serialise("jsonld"), $context, $options);
@@ -193,7 +202,12 @@ function make_payload($form_request){
     $summary = trim($form_request["summary"]);
     $content = trim($form_request["content"]);
 
-    if(count($errors) < 1 && validate_input($form_request)){
+    $input_valid = validate_input($form_request);
+    if(!$input_valid){
+        $errors[] = array("invalid" => "invalid input");
+    }
+
+    if(count($errors) < 1 && $input_valid){
 
         $node = $g->newBNode();
         $g->addType($node, "as:Travel");
@@ -230,6 +244,7 @@ function make_payload($form_request){
 function form_to_endpoint($form_request){
     $endpoint = $form_request["endpoint_uri"];
     $key = $form_request["endpoint_key"];
+    var_dump($form_request);
     $payload = make_payload($form_request);
     if(is_array($payload)){
         // Errors

@@ -9,10 +9,9 @@
             <select name="from_uri" id="from_uri">
               <option>--</option>
               <?foreach($locations as $location):?>
-                <option value="<?=$location['id']?>"><?=$location['name']?></option>
+                <option value="<?=$location['id']?>"<?=$location['id']==$_POST['from_uri'] ? " selected": ""?>><?=$location['name']?></option>
               <?endforeach?>
             </select>
-            <input type="text" name="from" id="from"<?=(isset($_POST['from'])) ? ' value="'.$_POST['from'].'"' : ''?> />
           </p>
         </div>
         <span id="toggleToMap">change input</span>
@@ -22,10 +21,9 @@
             <select name="to_uri" id="to_uri">
               <option>--</option>
               <?foreach($locations as $location):?>
-                <option value="<?=$location['id']?>"><?=$location['name']?></option>
+                <option value="<?=$location['id']?>"<?=$location['id']==$_POST['to_uri'] ? " selected": ""?>><?=$location['name']?></option>
               <?endforeach?>
             </select>
-            <input type="text" name="to" id="to"<?=(isset($_POST['to'])) ? ' value="'.$_POST['to'].'"' : ''?> />
           </p>
         </div>
 
@@ -90,9 +88,7 @@
 
         <p>
           <label for="content">Description</label>
-          <textarea name="content" id="content">
-            <?=(isset($_POST['content'])) ? $_POST['content'] : ''?>
-          </textarea>
+          <textarea name="content" id="content"><?=(isset($_POST['content'])) ? $_POST['content'] : ''?></textarea>
         </p>
 
         <p>
