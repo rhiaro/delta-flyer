@@ -1,4 +1,8 @@
         <p>
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name"<?=(isset($_POST['name'])) ? ' value="'.$_POST['name'].'"' : ''?> />
+        </p>
+        <p>
           <label for="summary">Summary</label>
           <input type="text" name="summary" id="summary"<?=(isset($_POST['summary'])) ? ' value="'.$_POST['summary'].'"' : ''?> />
         </p>
@@ -30,7 +34,7 @@
         <p>
           <label>Start</label>
           <select name="startyear" id="startyear">
-            <?for($i=date("Y");$i>=2015;$i--):?>
+            <?for($i=date("Y");$i>=2008;$i--):?>
               <option value="<?=$i?>"<?=($i==$_POST['startyear']) ? " selected" : ""?>><?=$i?></option>
             <?endfor?>
           </select>
@@ -59,7 +63,7 @@
         <p>
           <label>End</label>
           <select name="endyear" id="endyear">
-            <?for($i=date("Y");$i>=2015;$i--):?>
+            <?for($i=date("Y");$i>=2008;$i--):?>
               <option value="<?=$i?>"<?=($i==$_POST['endyear']) ? " selected" : ""?>><?=$i?></option>
             <?endfor?>
           </select>

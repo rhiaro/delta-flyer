@@ -199,6 +199,7 @@ function make_payload($form_request){
     }
 
     $tags = make_tags($form_request["tags"]);
+    $name = trim($form_request["name"]);
     $summary = trim($form_request["summary"]);
     $content = trim($form_request["content"]);
 
@@ -223,6 +224,9 @@ function make_payload($form_request){
         foreach($tags as $tag){
             $g->addResource($node, "as:tag", $tag);
         }
+        if(strlen($name) > 0){
+            $g->addLiteral($node, "as:name", $name);
+        }
         if(strlen($summary) > 0){
             $g->addLiteral($node, "as:summary", $summary);
         }
@@ -244,7 +248,6 @@ function make_payload($form_request){
 function form_to_endpoint($form_request){
     $endpoint = $form_request["endpoint_uri"];
     $key = $form_request["endpoint_key"];
-    var_dump($form_request);
     $payload = make_payload($form_request);
     if(is_array($payload)){
         // Errors
