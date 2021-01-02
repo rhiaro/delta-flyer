@@ -25,6 +25,7 @@ $tags = array(
     "hiking" => "https://rhiaro.co.uk/tags/hiking",
     "car" => "https://rhiaro.co.uk/tags/car",
     "taxi" => "https://rhiaro.co.uk/tags/taxi",
+    "plane" => "https://rhiaro.co.uk/tags/plane",
     "hitchhiking" => "https://rhiaro.co.uk/tags/hitchhiking",
 );
 
