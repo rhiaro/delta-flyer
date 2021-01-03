@@ -25,7 +25,7 @@ function makeMap(toggle, mapInput, mapInputHolder, mapHolderId, lat, lng, nameIn
         lngInput.value = L.latLng(map.getCenter()).lng;
     });
 
-    var geonames_url_base = "http://api.geonames.org/countrySubdivisionJSON?";
+    var geonames_url_base = "https://secure.geonames.org/countrySubdivisionJSON?";
     var geonames_user = "&username=rhiaro";
 
     map.on("mouseout", function(){
