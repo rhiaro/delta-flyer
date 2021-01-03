@@ -2,8 +2,8 @@
 <html>
   <head>
     <title>Delta Flyer</title>
-    <link rel="stylesheet" type="text/css" href="../../views/normalize.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../views/core.css" />
+    <link rel="stylesheet" type="text/css" href="https://rhiaro.co.uk/views/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://rhiaro.co.uk/views/core.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
