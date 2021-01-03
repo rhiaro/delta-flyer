@@ -29,7 +29,7 @@ $tags = array(
     "hitchhiking" => "https://rhiaro.co.uk/tags/hitchhiking",
 );
 
-$locations = Rhiaro\get_locations("http://localhost/places/?limit=10000");
+$locations = Rhiaro\get_locations();
 
 usort($locations, function($a, $b) {
     return $a['sort'] <=> $b['sort'];
@@ -41,6 +41,9 @@ if(isset($_POST['submit'])){
     }
     $endpoint = $_POST['endpoint_uri'];
     $result = Rhiaro\form_to_endpoint($_POST);
+    if(!is_array($result) && $result->status_code == "201"){
+        unset($_POST);
+    }
 }
 
 include('templates/index.php');

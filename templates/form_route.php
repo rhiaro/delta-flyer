@@ -111,22 +111,30 @@
         <p>
           <label>Published</label>
           <select name="year" id="year">
-            <option value="2020" selected>2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
+            <?for($i=date("Y");$i>=2008;$i--):?>
+              <option value="<?=$i?>"<?=($i==$_POST['year']) ? " selected" : ""?>><?=$i?></option>
+            <?endfor?>
           </select>
           <select name="month" id="month">
             <?for($i=1;$i<=12;$i++):?>
-              <option value="<?=date("m", strtotime("2016-$i-01"))?>"<?=(date("n") == $i) ? " selected" : ""?>><?=date("M", strtotime("2016-$i-01"))?></option>
+              <? $i = date("m", strtotime("2016-$i-01")); ?>
+              <option value="<?=$i?>"
+                <?=(isset($_POST['month']) && $_POST['month'] == $i) ? " selected" : (!isset($_POST['month']) && date("n") == $i) ? " selected" : ""?>>
+                <?=date("M", strtotime("2016-$i-01"))?>
+              </option>
             <?endfor?>
           </select>
           <select name="day" id="day">
             <?for($i=1;$i<=31;$i++):?>
-              <option value="<?=date("d", strtotime("2016-01-$i"))?>"<?=(date("j") == $i) ? " selected" : ""?>><?=date("d", strtotime("2016-01-$i"))?></option>
+              <? $i = date("d", strtotime("2016-01-$i")); ?>
+              <option value="<?=$i?>"
+                <?=(isset($_POST['day']) && $_POST['day'] == $i) ? " selected" : (!isset($_POST['day']) && date("j") == $i) ? " selected" : ""?>>
+                <?=$i?>
+              </option>
             <?endfor?>
           </select>
-          <input type="text" name="time" id="time" value="<?=date("H:i:s")?>" size="8" />
-          <input type="text" name="zone" id="zone" value="<?=date("P")?>" size="5" />
+          <input type="text" name="time" id="time" value="<?=(isset($_POST['time'])) ? $_POST['time'] : date("H:i:s")?>" size="8" />
+          <input type="text" name="zone" id="zone" value="<?=(isset($_POST['endzone'])) ? $_POST['endzone'] : date("P")?>" size="5" />
           <span id="reload"></span>
         </p>
 

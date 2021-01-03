@@ -124,8 +124,8 @@
         <hr/>
         <!-- temp -->
         <select name="endpoint_uri">
-          <option value="http://localhost/outgoing/">localhost</option>
           <option value="https://rhiaro.co.uk/outgoing/">rhiaro.co.uk</option>
+          <option value="http://localhost/outgoing/">localhost</option>
         </select>
         <input type="password" name="endpoint_key"<?=isset($_SESSION['key']) ? ' value="'.$_SESSION['key'].'"': ''?> />
         <!--/ temp -->
