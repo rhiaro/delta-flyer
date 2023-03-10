@@ -7,7 +7,7 @@ use EasyRdf_Namespace;
 use Requests;
 
 function ns(){
-    $ns = new EasyRdf_Namespace();
+    $ns = new \EasyRdf\RdfNamespace();
     $ns_mapping = array(
         'as' => 'https://www.w3.org/ns/activitystreams#',
         'time' => 'http://www.w3.org/2006/time#',
@@ -21,8 +21,8 @@ function ns(){
 
 function get_timezone_from_rdf($url){
     global $ns;
-    $response = Requests::get($url, array('Accept' => 'application/ld+json'));
-    $g = new EasyRdf_Graph();
+    $response = \WpOrg\Requests\Requests::get($url, array('Accept' => 'application/ld+json'));
+    $g = new \EasyRdf\Graph();
     $g->parse($response->body, 'jsonld');
     return $g->get($url, 'time:timeZone')->getValue();
 }

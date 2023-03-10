@@ -13,7 +13,7 @@
             <select name="from_uri" id="from_uri">
               <option>--</option>
               <?foreach($locations as $location):?>
-                <option value="<?=$location['id']?>"<?=$location['id']==$_POST['from_uri'] ? " selected": ""?>><?=$location['name']?></option>
+                <option value="<?=$location['id']?>"<?=isset($_POST['from_uri']) && $location['id']==$_POST['from_uri'] ? " selected": ""?>><?=$location['name']?></option>
               <?endforeach?>
             </select>
           </p>
@@ -25,7 +25,7 @@
             <select name="to_uri" id="to_uri">
               <option>--</option>
               <?foreach($locations as $location):?>
-                <option value="<?=$location['id']?>"<?=$location['id']==$_POST['to_uri'] ? " selected": ""?>><?=$location['name']?></option>
+                <option value="<?=$location['id']?>"<?=isset($_POST['to_uri']) && $location['id']==$_POST['to_uri'] ? " selected": ""?>><?=$location['name']?></option>
               <?endforeach?>
             </select>
           </p>
@@ -35,14 +35,14 @@
           <label>Start</label>
           <select name="startyear" id="startyear">
             <?for($i=date("Y");$i>=2008;$i--):?>
-              <option value="<?=$i?>"<?=($i==$_POST['startyear']) ? " selected" : ""?>><?=$i?></option>
+              <option value="<?=$i?>"<?=(isset($_POST['startyear']) && $i==$_POST['startyear']) ? " selected" : ""?>><?=$i?></option>
             <?endfor?>
           </select>
           <select name="startmonth" id="startmonth">
             <?for($i=1;$i<=12;$i++):?>
               <? $i = date("m", strtotime("2016-$i-01")); ?>
               <option value="<?=$i?>"
-                <?=(isset($_POST['startmonth']) && $_POST['startmonth'] == $i) ? " selected" : (!isset($_POST['startmonth']) && date("n") == $i) ? " selected" : ""?>>
+                <?=((isset($_POST['startmonth']) && $_POST['startmonth'] == $i) ? " selected" : (!isset($_POST['startmonth']) && date("n") == $i)) ? " selected" : ""?>>
                 <?=date("M", strtotime("2016-$i-01"))?>
               </option>
             <?endfor?>
@@ -51,7 +51,7 @@
             <?for($i=1;$i<=31;$i++):?>
               <? $i = date("d", strtotime("2016-01-$i")); ?>
               <option value="<?=$i?>"
-                <?=(isset($_POST['startday']) && $_POST['startday'] == $i) ? " selected" : (!isset($_POST['startday']) && date("j") == $i) ? " selected" : ""?>>
+                <?=((isset($_POST['startday']) && $_POST['startday'] == $i) ? " selected" : (!isset($_POST['startday']) && date("j") == $i)) ? " selected" : ""?>>
                 <?=$i?>
               </option>
             <?endfor?>
@@ -64,14 +64,14 @@
           <label>End</label>
           <select name="endyear" id="endyear">
             <?for($i=date("Y");$i>=2008;$i--):?>
-              <option value="<?=$i?>"<?=($i==$_POST['endyear']) ? " selected" : ""?>><?=$i?></option>
+              <option value="<?=$i?>"<?=(isset($_POST['endyear']) && $i==$_POST['endyear']) ? " selected" : ""?>><?=$i?></option>
             <?endfor?>
           </select>
           <select name="endmonth" id="endmonth">
             <?for($i=1;$i<=12;$i++):?>
               <? $i = date("m", strtotime("2016-$i-01")); ?>
               <option value="<?=$i?>"
-                <?=(isset($_POST['endmonth']) && $_POST['endmonth'] == $i) ? " selected" : (!isset($_POST['endmonth']) && date("n") == $i) ? " selected" : ""?>>
+                <?=((isset($_POST['endmonth']) && $_POST['endmonth'] == $i) ? " selected" : (!isset($_POST['endmonth']) && date("n") == $i)) ? " selected" : ""?>>
                 <?=date("M", strtotime("2016-$i-01"))?>
               </option>
             <?endfor?>
@@ -80,7 +80,7 @@
             <?for($i=1;$i<=31;$i++):?>
               <? $i = date("d", strtotime("2016-01-$i")); ?>
               <option value="<?=$i?>"
-                <?=(isset($_POST['endday']) && $_POST['endday'] == $i) ? " selected" : (!isset($_POST['endday']) && date("j") == $i) ? " selected" : ""?>>
+                <?=((isset($_POST['endday']) && $_POST['endday'] == $i) ? " selected" : (!isset($_POST['endday']) && date("j") == $i)) ? " selected" : ""?>>
                 <?=$i?>
               </option>
             <?endfor?>
@@ -97,6 +97,7 @@
 
         <p>
           <label for="tags">Tags</label>
+          <? if(!isset($_POST['tags'])) { $_POST['tags'] = array(); } ?>
           <input type="text" name="tags[string]" id="tags"<?=(isset($_POST['tags']['string'])) ? ' value="'.$_POST['tags']['string'].'"' : ''?> />
         </p>
         <p>
@@ -112,14 +113,14 @@
           <label>Published</label>
           <select name="year" id="year">
             <?for($i=date("Y");$i>=2008;$i--):?>
-              <option value="<?=$i?>"<?=($i==$_POST['year']) ? " selected" : ""?>><?=$i?></option>
+              <option value="<?=$i?>"<?=(isset($_POST['year']) && $i==$_POST['year']) ? " selected" : ""?>><?=$i?></option>
             <?endfor?>
           </select>
           <select name="month" id="month">
             <?for($i=1;$i<=12;$i++):?>
               <? $i = date("m", strtotime("2016-$i-01")); ?>
               <option value="<?=$i?>"
-                <?=(isset($_POST['month']) && $_POST['month'] == $i) ? " selected" : (!isset($_POST['month']) && date("n") == $i) ? " selected" : ""?>>
+                <?=((isset($_POST['month']) && $_POST['month'] == $i) ? " selected" : (!isset($_POST['month']) && date("n") == $i)) ? " selected" : ""?>>
                 <?=date("M", strtotime("2016-$i-01"))?>
               </option>
             <?endfor?>
@@ -128,7 +129,7 @@
             <?for($i=1;$i<=31;$i++):?>
               <? $i = date("d", strtotime("2016-01-$i")); ?>
               <option value="<?=$i?>"
-                <?=(isset($_POST['day']) && $_POST['day'] == $i) ? " selected" : (!isset($_POST['day']) && date("j") == $i) ? " selected" : ""?>>
+                <?=((isset($_POST['day']) && $_POST['day'] == $i) ? " selected" : (!isset($_POST['day']) && date("j") == $i)) ? " selected" : ""?>>
                 <?=$i?>
               </option>
             <?endfor?>

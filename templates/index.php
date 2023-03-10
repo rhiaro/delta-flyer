@@ -132,22 +132,6 @@
         <hr/>
       </form>
 
-      <div class="color3-bg inner">
-        <?if(isset($_SESSION['me'])):?>
-          <p class="wee">You are logged in as <strong><?=$_SESSION['me']?></strong> <a href="?logout=1">Logout</a></p>
-        <?else:?>
-          <form action="https://indieauth.com/auth" method="get" class="inner clearfix">
-            <label for="indie_auth_url">Domain:</label>
-            <input id="indie_auth_url" type="text" name="me" placeholder="yourdomain.com" />
-            <input type="submit" value="signin" />
-            <input type="hidden" name="client_id" value="https://rhiaro.co.uk" />
-            <input type="hidden" name="redirect_uri" value="<?=$base?>" />
-            <input type="hidden" name="state" value="<?=$base?>" />
-            <input type="hidden" name="scope" value="post" />
-          </form>
-        <?endif?>
-
-      </div>
     </main>
     <footer class="w1of2 center">
       <p><a href="https://github.com/rhiaro/burrow">Code</a> | <a href="https://github.com/rhiaro/burrow/issues">Issues</a>

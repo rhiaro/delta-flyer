@@ -8,8 +8,8 @@ use ML\JsonLD\JsonLD;
 use GeoNames\Client as GeoNamesClient;
 
 function get_locations($url="https://rhiaro.co.uk/places/?limit=10000"){
-    $response = Requests::get($url, array('Accept' => 'application/ld+json'));
-    $g = new EasyRdf_Graph($url);
+    $response = \WpOrg\Requests\Requests::get($url, array('Accept' => 'application/ld+json'));
+    $g = new \EasyRdf\Graph($url);
     $g->parse($response->body, 'jsonld');
 
     $locations = array();
@@ -44,7 +44,7 @@ function make_tags($input_array){
 
 function make_date($date_parts){
     $date_str = make_date_string($date_parts);
-    $date = new EasyRdf_Literal($date_str, null, "xsd:dateTime");
+    $date = new \EasyRdf\Literal($date_str, null, "xsd:dateTime");
     return $date;
 }
 
@@ -69,7 +69,7 @@ function make_location_from_string($location){
 }
 
 function make_location_from_coords($lat, $lng, $name){
-    $location_graph = new EasyRdf_Graph();
+    $location_graph = new \EasyRdf\Graph();
     $location_node = $location_graph->newBNode();
     $location_graph->addType($location_node, "as:Place");
     $location_graph->addLiteral($location_node, "as:name", $name);
@@ -150,7 +150,7 @@ function process_dates($form_request){
 
 function make_payload($form_request){
     global $ns;
-    $g = new EasyRdf_Graph();
+    $g = new \EasyRdf\Graph();
     $context = $ns->get("as");
     $options = array("compactArrays" => true);
 
@@ -260,7 +260,7 @@ function form_to_endpoint($form_request){
 
 function post_to_endpoint($endpoint, $key, $payload){
     $headers = array("Content-Type" => "application/ld+json", "Authorization" => $key);
-    $response = Requests::post($endpoint, $headers, $payload);
+    $response = \WpOrg\Requests\Requests::post($endpoint, $headers, $payload);
     return $response;
 }
 
